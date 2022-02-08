@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import ensta.ai.PlayerAI;
 import ensta.model.Board;
 import ensta.model.Coords;
 import ensta.model.Hit;
@@ -41,9 +42,11 @@ public class Game {
 		if (!loadSave()) {
 
 
-			// TODO init boards
+			Board playerBoard = new Board("Plateau joueur", 10);
+			Board opponentBoard = new Board("Plateau opposant", 10);
 
-			// TODO init this.player1 & this.player2
+			this.player1 = new PlayerAI(playerBoard, opponentBoard, createDefaultShips());
+			this.player2 = new PlayerAI(opponentBoard, playerBoard, createDefaultShips());
 
 			// TODO place player ships
 		}
