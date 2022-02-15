@@ -114,12 +114,12 @@ public class Board implements IBoard {
         Orientation o = ship.getOrientation();
         int dx = 0, dy = 0;
         if (o == Orientation.EAST) {
-            if (coords.getX() + ship.getLength() >= this.size) {
+            if (coords.getX() + ship.getLength() > this.size) {
                 return false;
             }
             dx = 1;
         } else if (o == Orientation.SOUTH) {
-            if (coords.getY() + ship.getLength() >= this.size) {
+            if (coords.getY() + ship.getLength() > this.size) {
                 return false;
             }
             dy = 1;

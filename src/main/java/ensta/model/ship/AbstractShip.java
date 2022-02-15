@@ -28,6 +28,10 @@ public abstract class AbstractShip {
         return orientation;
     }
 
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+    }
+
     public Object getName() {
         return name;
     }

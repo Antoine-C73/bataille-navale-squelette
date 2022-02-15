@@ -45,10 +45,10 @@ public class Game {
 			Board playerBoard = new Board("Plateau joueur", 10);
 			Board opponentBoard = new Board("Plateau opposant", 10);
 
-			this.player1 = new PlayerAI(playerBoard, opponentBoard, createDefaultShips());
+			this.player1 = new Player(playerBoard, opponentBoard, createDefaultShips());
 			this.player2 = new PlayerAI(opponentBoard, playerBoard, createDefaultShips());
 
-			// TODO place player ships
+			this.player1.putShips();
 		}
 		return this;
 	}
