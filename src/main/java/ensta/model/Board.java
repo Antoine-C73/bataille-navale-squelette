@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import ensta.model.ship.AbstractShip;
+import ensta.util.ColorUtil;
 import ensta.util.Orientation;
+import ensta.util.ColorUtil.Color;
 
 public class Board implements IBoard {
 
@@ -90,7 +92,7 @@ public class Board implements IBoard {
             }
 
             for (int j = 0; j < this.size; j++) {
-                line += this.tiles[i][j].hasShip() ? "X " : ". ";
+                line += this.tiles[i][j].hasShip() ? (this.tiles[i][j].getShip().getLabel() + " ") : ". ";
             }
 
             line += "| ";
@@ -102,7 +104,14 @@ public class Board implements IBoard {
             }
 
             for (int j = 0; j < this.size; j++) {
-				line += this.tiles[i][j].isHit() ? "X " : ". ";
+                if (this.tiles[i][j].isHit()) {
+                    ColorUtil.Color color = this.tiles[i][j].getShipState().isStruck() ? Color.RED: Color.WHITE;
+                    String x_string = ColorUtil.colorize(this.tiles[i][j].getShip().getLabel(), color);
+                    line += (x_string + " ");
+                } else {
+                    line += ". ";
+                }
+                
 			}
 
             System.out.println(line);            

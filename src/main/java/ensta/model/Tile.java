@@ -1,16 +1,17 @@
 package ensta.model;
 
 import ensta.model.ship.AbstractShip;
+import ensta.model.ship.ShipState;
 
 public class Tile {
-    private boolean isHit;
+    private ShipState shipState;
     private AbstractShip ship;
     private Coords coords;
 
     public Tile(Coords coords) {
         this.coords = coords;
         this.ship = null;
-        this.isHit = false;
+        this.shipState = new ShipState(null);
     }
 
     public AbstractShip getShip() {
@@ -19,6 +20,7 @@ public class Tile {
 
     public void setShip(AbstractShip ship) {
         this.ship = ship;
+        this.shipState.setShip(ship);
     }
 
     public boolean hasShip() {
@@ -34,11 +36,14 @@ public class Tile {
     }
 
     public boolean isHit() {
-        return isHit;
+        return (this.shipState.isStruck() != null);
     }
 
-    public void setHit(boolean hit) {
-        this.isHit = hit;
+    public void setHit(Boolean hit) {
+        this.shipState.addStrike(hit);
     } 
     
+    public ShipState getShipState() {
+        return this.shipState;
+    }
 }
