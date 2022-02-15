@@ -11,20 +11,19 @@ public class Board implements IBoard {
     private static final int DEFAULT_SIZE = 10;
 
     private String name;
-    private String ships[][];
-    private boolean hits[][];
     private int size;
+    private Tile tiles[][];
     
     public Board(String name, int size) {
         this.name = name;
         this.size = size;
-        this.ships = new String[size][size];
-        this.hits = new boolean[size][size];
+        this.tiles = new Tile[size][size];
 
-        for (String[] s: this.ships) {
-            Arrays.fill(s, ".");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                this.tiles[i][j] = new Tile(new Coords(j, i));
+            }
         }
-
     }
 
     public Board(String name) {
@@ -91,7 +90,7 @@ public class Board implements IBoard {
             }
 
             for (int j = 0; j < this.size; j++) {
-                line += this.ships[i][j] + " ";
+                line += this.tiles[i][j].hasShip() ? "X " : ". ";
             }
 
             line += "| ";
@@ -103,7 +102,7 @@ public class Board implements IBoard {
             }
 
             for (int j = 0; j < this.size; j++) {
-				line += this.hits[i][j] ? "X " : ". ";
+				line += this.tiles[i][j].isHit() ? "X " : ". ";
 			}
 
             System.out.println(line);            
@@ -149,34 +148,59 @@ public class Board implements IBoard {
         return true;
     }
 
-    @Override
     public int getSize() {
-        // TODO Auto-generated method stub
-        return 0;
+        return size;
     }
 
-    @Override
     public boolean putShip(AbstractShip ship, Coords coords) {
-        // TODO Auto-generated method stub
+        if (canPutShip(ship, coords)) {
+            int x = coords.getX();
+            int y = coords.getY();
+
+            for (int i = 0; i < ship.getLength(); i++) {
+                switch (ship.getOrientation()) {
+                    case NORTH:
+                        this.tiles[y - i][x].setShip(ship);                        
+                        break;
+                    case SOUTH:
+                        this.tiles[y + i][x].setShip(ship);
+                        break;
+                    case EAST:
+                        this.tiles[y][x + i].setShip(ship);
+                        break;
+                    case WEST:
+                        this.tiles[y][x - i].setShip(ship);
+                        break;
+                }
+            }
+
+            return true;
+
+        }
+
         return false;
     }
 
     @Override
     public boolean hasShip(Coords coords) {
-        // TODO Auto-generated method stub
-        return false;
+        int x = coords.getX();
+        int y = coords.getY();
+        return this.tiles[y][x].hasShip();
     }
 
     @Override
     public void setHit(boolean hit, Coords coords) {
-        // TODO Auto-generated method stub
+        int x = coords.getX();
+        int y = coords.getY();
+        this.tiles[y][x].setHit(hit);
         
     }
 
     @Override
     public Boolean getHit(Coords coords) {
-        // TODO Auto-generated method stub
-        return null;
+        int x = coords.getX();
+        int y = coords.getY();
+        return this.tiles[y][x].isHit();
     }
 
     @Override
