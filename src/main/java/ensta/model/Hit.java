@@ -14,6 +14,7 @@ public enum Hit {
      */
     private int value;
     private String label;
+    private Coords coords;
 
     /* ***
      * Constructeur
@@ -37,5 +38,17 @@ public enum Hit {
 
     public String toString() {
         return this.label;
+    }
+
+    public void setCoords(Coords coords) {
+        this.coords = coords;
+    }
+
+    public Coords getCoords() {
+        return this.coords;
+    }
+
+    public int getValue() {
+        return this.value;
     }
 };

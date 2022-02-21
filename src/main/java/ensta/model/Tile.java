@@ -35,8 +35,8 @@ public class Tile {
         this.coords = coords;
     }
 
-    public boolean isHit() {
-        return (this.shipState.isStruck() != null);
+    public Boolean isHit() {
+        return this.shipState.isStruck();
     }
 
     public void setHit(Boolean hit) {

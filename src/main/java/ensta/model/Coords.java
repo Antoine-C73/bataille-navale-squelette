@@ -1,5 +1,7 @@
 package ensta.model;
 
+import java.util.Random;
+
 public class Coords {
 
     private int x;
@@ -45,7 +47,10 @@ public class Coords {
     }
 
     public static Coords randomCoords(int size) {
-        return new Coords(0, 0);
+        Random randomEngine = new Random();
+        int x = randomEngine.nextInt(size);
+        int y = randomEngine.nextInt(size);
+        return new Coords(x, y);
     }
     
 }

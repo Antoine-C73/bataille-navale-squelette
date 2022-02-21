@@ -34,7 +34,7 @@ public abstract class AbstractShip {
         this.orientation = orientation;
     }
 
-    public Object getName() {
+    public String getName() {
         return name;
     }
 
@@ -43,7 +43,7 @@ public abstract class AbstractShip {
     }
 
     public void addStrike() {
-        this.strikeCount = Math.min(this.strikeCount, this.length);
+        this.strikeCount = Math.min(this.strikeCount + 1, this.length);
     }
 
     public boolean isSunk() {

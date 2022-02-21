@@ -26,7 +26,7 @@ A rendre pour le 25/02/2022 avant 22h à mallard@oxyl.fr
 
 */
 
-public class Game {
+public class MultiGame {
 
 	/*
 	 * *** Constante
@@ -43,10 +43,10 @@ public class Game {
 	/*
 	 * *** Constructeurs
 	 */
-	public Game() {
+	public MultiGame() {
 	}
 
-	public Game init() {
+	public MultiGame init() {
 		if (!loadSave()) {
 
 
@@ -54,7 +54,7 @@ public class Game {
 			Board opponentBoard = new Board("Plateau opposant", 10);
 
 			this.player1 = new Player(playerBoard, opponentBoard, createDefaultShips());
-			this.player2 = new PlayerAI(opponentBoard, playerBoard, createDefaultShips());
+			this.player2 = new Player(opponentBoard, playerBoard, createDefaultShips());
 
 			this.player1.putShips();
 			this.player2.putShips();
@@ -162,8 +162,8 @@ public class Game {
 		printGame(this.player1, this.player2);
 		boolean done;
 		do {
-			printGame(this.player1, this.player2);
 			System.out.println("C'est au joueur " + player1.getBoard().getName() + " de jouer !");
+			printGame(this.player1, this.player2);
 
 			hit = player1.sendHit(coords); // TODO player1 send a hit
 			boolean strike = hit != Hit.MISS; // TODO set this hit on his board (b1)
@@ -178,11 +178,14 @@ public class Game {
 
 			if (!done && !strike) {
 				do {
+                    System.out.println("C'est au joueur " + player2.getBoard().getName() + " de jouer !");
+			        printGame(this.player2, this.player1);
+
 					hit = player2.sendHit(coords); // TODO player2 send a hit.
 
 					strike = hit != Hit.MISS;
 					if (strike) {
-						printGame(this.player1, this.player2);
+						printGame(this.player2, this.player1);
 					}
 					System.out.println(makeHitMessage(true /* incoming hit */, coords, hit));
 					done = updateScore();

@@ -15,6 +15,10 @@ public class ShipState {
 
     public void addStrike(Boolean hit) {
         this.struck = hit;
+
+        if (this.ship != null) {
+            this.ship.addStrike();
+        }
     }
 
     public Boolean isStruck() {
@@ -27,7 +31,10 @@ public class ShipState {
     }
 
     public boolean isSunk() {
-        return this.ship.isSunk();
+        if (this.ship != null) {
+            return this.ship.isSunk();
+        }
+        return false;
     }
 
     public AbstractShip getShip() {

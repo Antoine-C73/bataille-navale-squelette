@@ -32,7 +32,7 @@ public class Board implements IBoard {
         this(name, Board.DEFAULT_SIZE);
     }
 
-    private String base26(int n) {
+    public String base26(int n) {
         String ret = "";
 
         if (n < 26) {
@@ -104,10 +104,19 @@ public class Board implements IBoard {
             }
 
             for (int j = 0; j < this.size; j++) {
-                if (this.tiles[i][j].isHit()) {
-                    ColorUtil.Color color = this.tiles[i][j].getShipState().isStruck() ? Color.RED: Color.WHITE;
-                    String x_string = ColorUtil.colorize(this.tiles[i][j].getShip().getLabel(), color);
-                    line += (x_string + " ");
+                if (this.tiles[i][j].isHit() != null) {
+                    String x_string;
+
+                    if (this.tiles[i][j].isHit()) {
+                        ColorUtil.Color color = Color.RED;
+                        x_string = ColorUtil.colorize(this.tiles[i][j].getShip().getLabel(), color);
+                    } else {
+                        ColorUtil.Color color = Color.YELLOW;
+                        x_string = ColorUtil.colorize(".", color);
+                    }
+
+                    line += x_string + " ";
+                    
                 } else {
                     line += ". ";
                 }
@@ -201,7 +210,9 @@ public class Board implements IBoard {
     public void setHit(boolean hit, Coords coords) {
         int x = coords.getX();
         int y = coords.getY();
-        this.tiles[y][x].setHit(hit);
+        if (getHit(coords) == null) {
+            this.tiles[y][x].setHit(hit);
+        }
         
     }
 
@@ -212,11 +223,32 @@ public class Board implements IBoard {
         return this.tiles[y][x].isHit();
     }
 
-    @Override
-    public Hit sendHit(Coords res) {
-        // TODO Auto-generated method stub
-        return null;
+
+    public Hit sendHit(int x, int y) {
+        Coords res = new Coords(x, y);
+
+        if ((getHit(res) == null) || (!getHit(res))) {
+            setHit(hasShip(res), res);
+            
+            if (hasShip(res)) {
+                if (this.tiles[y][x].getShipState().isSunk()) {
+                    return Hit.fromInt(this.tiles[y][x].getShip().getLength());
+                } else {
+                    return Hit.STRIKE;
+                }
+            } else {
+                return Hit.MISS;
+            }
+        } else {
+            return Hit.MISS;
+        }        
     }
 
-    
+    public String getName() {
+        return this.name;
+    }
+
+    public AbstractShip getShip(Coords coords) {
+        return this.tiles[coords.getY()][coords.getX()].getShip();
+    }
 }
